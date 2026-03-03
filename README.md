@@ -51,27 +51,7 @@ To compile and package SmartNet AI Monitor for yourself:
    dotnet run
    ```
 
-### MSIX Packaging for Microsoft Store
 
-The application utilizes native Windows CLI tooling (`makeappx.exe`) to bypass bulky Visual Studio packaging structures.
-
-1. Publish the application binaries into a standalone payload layout using Multi-Architecture AOT tags:
-   ```powershell
-   dotnet publish -c Release -r win-x64 --self-contained false -p:PublishReadyToRun=true -p:TieredCompilation=true -o AppxLayout\Payload
-   ```
-2. Leverage the Python `Pillow` library script (`generate_assets.py`) to scrape vector icons into standard Store format layouts.
-3. Bundle the `.msix` using Windows SDK packaging:
-   ```powershell
-   makeappx pack /o /v /d "AppxLayout\Payload" /p "SmartNetAiMonitor.msix"
-   ```
-
-## 🔐 Permissions & Capabilities
-
-SmartNet AI Monitor requires the following Windows Package permissions (`AppxManifest.xml`) to manipulate packet routing correctly:
-- `runFullTrust` (Required for PInvoke packet interception & raw socket execution)
-- `internetClient`
-- `internetClientServer`
-- `privateNetworkClientServer`
 
 ### Note on Npcap
 In order to utilize the Advanced Packet Capture module, users must have the cross-platform `Npcap` loopback driver installed on their system (which is traditionally bundled with WireShark installations). 
